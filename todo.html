@@ -1,51 +1,26 @@
 <html>
-  <head>
-    <link rel="stylesheet" href="./style.css" />
-  </head>
-  <body>
-    <main>
-      <p>to doリスト</p>
-      <form>
-        <input
-          type="checkbox"
-          id="allselect"
-          class="option"
-          style="display: none"
-        />
-        <input type="text" id="todo" />
-        <button id="decide">決定</button>
-        <ul id="list"></ul>
-        <p class="option" id="left"></p>
-        <input
-          type="button"
-          id="all"
-          class="option"
-          value="all"
-          style="display: none"
-        />
-        <input
-          type="button"
-          id="active"
-          class="option"
-          value="active"
-          style="display: none"
-        />
-        <input
-          type="button"
-          id="completed"
-          class="option"
-          value="completed"
-          style="display: none"
-        />
-        <input
-          type="button"
-          id="clearCompleted"
-          value="clear completed"
-          style="display: none"
-        />
-      </form>
-    </main>
-  </body>
-  <script src="../../_common/scripts/jquery-3.4.1.min.js"></script>
-  <script src="./todo.js" id="scripts"></script>
+
+<head>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <main>
+    <p>to doリスト</p>
+    <form>
+      <input type="checkbox" id="allselect" class="option" style="display: none" />
+      <input type="text" id="todo" />
+      <button id="decide">決定</button>
+      <ul id="list"></ul>
+      <p class="option" id="left"></p>
+      <input type="button" id="all" class="option" value="all" style="display: none" />
+      <input type="button" id="active" class="option" value="active" style="display: none" />
+      <input type="button" id="completed" class="option" value="completed" style="display: none" />
+      <input type="button" id="clearCompleted" value="clear completed" style="display: none" />
+    </form>
+  </main>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="./todo.js" id="scripts"></script>
+
 </html>
