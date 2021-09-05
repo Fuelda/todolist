@@ -20,7 +20,7 @@ function addTodo() {
 //HTMLにリスト表示
 function makeList(list) {
   $("#list").empty();
-  $.each(list, (index, element) => {
+  list.forEach((element) => {
     $(
       `<li id=list${element.id} class=${
         element.check ? "checked" : "" //線引く用
@@ -34,7 +34,7 @@ function makeList(list) {
 }
 
 //modeをmakeListに反映
-function show() {
+function changeView() {
   switch (mode) {
     case "all":
       makeList(todoArray);
@@ -49,22 +49,15 @@ function show() {
 }
 
 //checkボタン押されたとき
-function checkTrue(obj) {
+function checkTrue() {
   todoArray.forEach((element) => {
     element.check = $(`#list${element.id}`).children("input").prop("checked");
     midline(element);
   });
-
-  /*
-  const listID = obj.parentNode.id.slice(4);
-  todoArray[listID].check = $(`#list${listID}`)
-    .children("input")
-    .prop("checked");
-  */
   newArray();
   leftNum();
-  clearButton();
-  show();
+  showClearButton();
+  changeView();
   console.log(todoArray);
 }
 
@@ -79,25 +72,12 @@ function midline(element) {
 
 //xボタンで要素消す
 function removeTodo(obj) {
-  const listID = obj.parentNode.id.slice(4);
-  console.log(listID);
-  todoArray = todoArray.filter((element) => element.id != Number(listID));
+  // list id の前4文字(list)を消す
+  const listID = obj.parentNode.id.slice(4)
+  todoArray = todoArray.filter((element) => element.id !== Number(listID));
   newArray();
-  show();
+  changeView();
   leftNum();
-}
-
-//チェック付きを消す
-function clearCompleted() {
-  $.each(todoArray, (index, element) => {
-    if (element.check === true) {
-      todoArray = active;
-    }
-    makeList(todoArray);
-  });
-  optionDelete();
-  $("#allselect").prop("checked", false);
-  console.log(todoArray);
 }
 
 //todoArray空ならoptionを消す
@@ -140,7 +120,7 @@ $("#decide").on("click", (event) => {
   event.preventDefault();
   addTodo();
   newArray();
-  show();
+  changeView();
   leftNum();
   $(".option").show();
   console.log(test);
@@ -150,7 +130,7 @@ $("#decide").on("click", (event) => {
 $("#active").on("click", (event) => {
   event.preventDefault();
   mode = "active";
-  show();
+  changeView();
   console.log(mode);
   console.log(test);
 });
@@ -159,7 +139,7 @@ $("#active").on("click", (event) => {
 $("#completed").on("click", (event) => {
   event.preventDefault();
   mode = "completed";
-  show();
+  changeView();
   console.log(mode);
 });
 
@@ -167,7 +147,7 @@ $("#completed").on("click", (event) => {
 $("#all").on("click", (event) => {
   event.preventDefault();
   mode = "all";
-  show();
+  changeView();
   console.log(mode);
   console.log(test);
 });
@@ -176,24 +156,32 @@ $("#all").on("click", (event) => {
 $("#allselect").on("change", (event) => {
   event.preventDefault();
   allselect();
-  show();
+  changeView();
   leftNum();
-  clearButton();
+  showClearButton();
 });
 
 //一つでもcompletedあったらclearCompleted出す
-function clearButton() {
-  $.each(todoArray, (index, element) => {
+function showClearButton() {
+  let flag = false
+  todoArray.forEach((element) => {
     if (element.check === true) {
-      $("#clearCompleted").show();
-      return false;
-    } else {
-      $("#clearCompleted").hide();
+      flag = true
     }
   });
+  if(flag) {
+    $("#clearCompleted").show();
+  } else {
+    $("#clearCompleted").hide();
+  }
 }
 
 //clearCompletedボタン押した時
 $("#clearCompleted").on("click", (event) => {
-  clearCompleted();
+  todoArray = active;
+  completed = []
+  makeList(todoArray);
+  optionDelete();
+  $("#allselect").prop("checked", false);
+  console.log(todoArray);
 });
